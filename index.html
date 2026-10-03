@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-adsense-account" content="ca-pub-5082905075117860">
+<title>Quiz 07 NMBU - Édition Ultimate</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5082905075117860"
+     crossorigin="anonymous"></script>
+<style>
+/* Variables globales et styles de base */
+:root {
+    --primary: #1ea362;
+    --danger: #e63946;
+    --warning: #ffbe0b;
+    --dark-bg: rgba(15, 18, 25, 0.88);
+    --panel-bg: rgba(26, 30, 44, 0.93);
+}
+
+body {
+    background-color: #0f1219;
+    background-image: url('https://unsplash.com');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: white;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 15px;
+    transition: background-image 0.8s ease-in-out;
+}
+
+/* Superposition sombre pour lisibilité du texte sur l'image */
+.bg-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(15,18,25,0.92) 80%);
+    z-index: -1;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.header {
+    background: var(--panel-bg);
+    padding: 15px;
+    border-radius: 15px;
+    text-align: center;
+    border: 2px solid var(--primary);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.logo {
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+.q07 span:nth-child(1){color: var(--primary)}
+.q07 span:nth-child(2){color: var(--danger)}
+.q07 span:nth-child(3){color: var(--warning)}
+
+/* Boîte de question avec animation de transition */
+.question-box {
+    background: var(--panel-bg);
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 15px;
+    min-height: 280px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Classe d'animation lors du changement de question */
+.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+/* Chronomètre global */
+.timer-container {
+    background: #242a3d;
+    height: 10px;
+    border-radius: 5px;
+    margin: 15px 0 5px 0;
+    overflow: hidden;
+    position: relative;
+}
+#timer-bar {
+    height: 100%;
+    width: 100%;
+    background: var(--danger);
+    transition: width 0.1s linear;
+}
+
+#progress {
+    height: 6px;
+    background: #242a3d;
+    border-radius: 10px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+#bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary), var(--danger), var(--warning));
+    transition: width 0.4s ease;
+}
+
+.score {
+    font-size: 20px;
+    text-align: center;
+    margin: 5px;
+    font-weight: 600;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    background: #242a3d;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 10px;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn:hover {
+    background: #2f3750;
+    transform: scale(1.01);
+}
+
+#next {
+    background: var(--warning);
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    display: none;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 15px rgba(255, 190, 11, 0.3);
+}
+
+#pub {
+    margin-top: 15px;
+    background: rgba(18, 21, 31, 0.8);
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    color: #888;
+    font-size: 12px;
+    border: 1px dashed #555;
+}
+
+.adsense-container {
+    margin: 15px 0;
+    text-align: center;
+    background: rgba(18, 21, 31, 0.8);
+    padding: 10px;
+    border-radius: 10px;
+}
+</style>
+</head>
+<body>
+<div class="bg-overlay"></div>
+<div class="container">
+    <div class="header">
+        <div class="logo q07"><span>Q</span><span>0</span><span>7</span></div>
+        <div style="font-weight: bold; font-size: 14px; margin-top:5px; color:#aaa;">QUIZ NMBU • ULTIMATE EDITION • 100 Questions</div>
+        <div class="timer-container"><div id="timer-bar"></div></div>
+        <div id="progress"><div id="bar"></div></div>
+        <div class="score"><span id="num">1</span>/100 — Score: <span id="sc">0</span></div>
+    </div>
+    
+    <div class="question-box" id="q-box">
+        <div id="cat" style="color: var(--warning); font-size: 13px; font-weight: bold; text-transform: uppercase;"></div>
+        <h2 id="q" style="margin-top: 10px; font-size: 20px; line-height: 1.4;">Chargement...</h2>
+        <div id="answers"></div>
+        <div id="next" onclick="nextQ()">SUIVANT →</div>
+    </div>
+
+    <div class="adsense-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5082905075117860"
+             data-ad-slot="0000000000"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    
+    <div style="text-align:center; margin-top: 15px;">
+        <button onclick="share()" style="background:#25D366; color:white; padding:12px 24px; border:none; border-radius:25px; font-weight:bold; cursor:pointer; box-shadow: 0 4px 12px rgba(37,211,102,0.3);">Partager WhatsApp</button>
+    </div>
+</div>
+
+<script>
+// Base de données augmentée à 100 questions avec thèmes iconiques d'arrière-plan
+const questions=[
+// QUESTIONS EXISTANTES (1 à 50)
+{q:"Père de l'indépendance du Cameroun?",c:"Histoire",bg:"history",a:["Ruben Um Nyobé","Ahmadou Ahidjo","John Ngu Foncha","Paul Biya"],r:0},
+{q:"Indépendance du Cameroun?",c:"Histoire",bg:"flag",a:["1960","1961","1958","1972"],r:0},
+{q:"Premier président?",c:"Histoire",bg:"government",a:["Ahmadou Ahidjo","Paul Biya","Ruben Um Nyobé","Bell"],r:0},
+{q:"Réunification?",c:"Histoire",bg:"africa",a:["1961","1960","1972","1984"],r:0},
+{q:"Um Nyobé mort en?",c:"Histoire",bg:"war",a:["1958","1960","1961","1955"],r:0},
+{q:"Roi de la savane?",c:"Animaux",bg:"lion",a:["Lion","Elephant","Gorille","Léopard"],r:0},
+{q:"Gorille au parc?",c:"Animaux",bg:"gorilla",a:["Waza","Mont Cameroun","Bouba Ndjida","Dja"],r:3},
+{q:"Animal protégé?",c:"Animaux",bg:"nature",a:["Pangolin","Chien","Chat","Souris"],r:0},
+{q:"Emblème Lions?",c:"Animaux",bg:"safari",a:["Lion","Elephant","Aigle","Panthère"],r:0},
+{q:"Waza célèbre pour?",c:"Animaux",bg:"elephant",a:["Elephants","Poissons","Serpents","Oiseaux"],r:0},
+{q:"Régions du Cameroun?",c:"Société",bg:"map",a:["10","8","12","7"],r:0},
+{q:"Capitale politique?",c:"Société",bg:"city",a:["Yaoundé","Douala","Bamenda","Bafoussam"],r:0},
+{q:"Capitale économique?",c:"Société",bg:"economy",a:["Douala","Yaoundé","Garoua","Buea"],r:0},
+{q:"Surnom Cameroun?",c:"Société",bg:"landscape",a:["Afrique miniature","Continent","Pays Lions","Terre promise"],r:0},
+{q:"Langues officielles?",c:"Société",bg:"languages",a:["Fr+Ang","Fr seul","Ang seul","Ewondo"],r:0},
+{q:"Lions quart Mondial?",c:"Sport",bg:"football",a:["1990","1994","2000","2010"],r:0},
+{q:"But vs Argentine 90?",c:"Sport",bg:"stadium",a:["Omam-Biyik","Milla","Eto'o","Song"],r:0},
+{q:"Combien de CAN?",c:"Sport",bg:"trophy",a:["5","3","7","2"],r:0},
+{q:"Eto'o a joué?",c:"Sport",bg:"barcelona",a:["Barca","Real","Les deux","Aucun"],r:2},
+{q:"Or olympique foot?",c:"Sport",bg:"olympics",a:["2000","1996","2004","2008"],r:0},
+{q:"LMD signifie?",c:"Éducation",bg:"university",a:["Licence Master Doctorat","Livre Manuel","Lycée Moyen","Lettre Math"],r:0},
+{q:"UY1?",c:"Éducation",bg:"books",a:["Univ Yaoundé 1","Union Youth","University Year","Unité Yaoundé"],r:0},
+{q:"Crédits Licence?",c:"Éducation",bg:"study",a:["180","120","60","300"],r:0},
+{q:"Soa campus de?",c:"Éducation",bg:"campus",a:["UY2","UY1","ENS","Poly"],r:0},
+{q:"Ngoa-Ekellé?",c:"Éducation",bg:"classroom",a:["UY1","UY2","ENS","FPAI"],r:0},
+{q:"IA signifie?",c:"IA & Tech",bg:"cyberpunk",a:["Intelligence Artificielle","Internet Avancé","Info Appliquée","Info Afrique"],r:0},
+{q:"ChatGPT par?",c:"IA & Tech",bg:"coding",a:["OpenAI","Google","Meta","Microsoft"],r:0},
+{q:"Python est?",c:"IA & Tech",bg:"python",a:["Langage prog","Serpent","Jeu","Virus"],r:0},
+{q:"Patron Meta?",c:"IA & Tech",bg:"meta",a:["Zuckerberg","Musk","Gates","Bezos"],r:0},
+{q:"Crée des images?",c:"IA & Tech",bg:"art",a:["Midjourney","Word","Excel","Paint"],r:0},
+{q:"Fleuve Yaoundé?",c:"Histoire",bg:"river",a:["Mfoundi","Wouri","Sanaga","Benoué"],r:0},
+{q:"Mont Cameroun?",c:"Histoire",bg:"mountain",a:["4095m","3000m","5000m","2500m"],r:0},
+{q:"Drapeau couleurs?",c:"Société",bg:"colors",a:["3","2","4","5"],r:0},
+{q:"Étoile drapeau?",c:"Société",bg:"star",a:["Jaune","Rouge","Verte","Blanche"],r:0},
+{q:"Lion vit où?",c:"Animaux",bg:"savannah",a:["Nord","Douala","Yaoundé","Ville"],r:0},
+{q:"Tortue Luth pond?",c:"Animaux",bg:"beach",a:["Kribi","Bamenda","Maroua","Foumban"],r:0},
+{q:"Meilleur buteur Lions?",c:"Sport",bg:"soccer",a:["Eto'o","Milla","Aboubakar","Choupo"],r:0},
+{q:"Stade Olembe?",c:"Sport",bg:"stadium-lights",a:["Paul Biya","Ahidjo","Omnisport","Japoma"],r:0},
+{q:"FENASCO?",c:"Éducation",bg:"sports-kid",a:["Jeux univ","Fête nat","Festival","Examen"],r:0},
+{q:"MGP 2.00?",c:"Éducation",bg:"grades",a:["Validé","Rattrapage","Exclusion","Bravo"],r:0},
+{q:"Google créé?",c:"IA & Tech",bg:"google",a:["1998","2000","1990","2010"],r:0},
+{q:"WhatsApp appartient?",c:"IA & Tech",bg:"whatsapp",a:["Meta","Google","Apple","Tesla"],r:0},
+{q:"Android 1er tel?",c:"IA & Tech",bg:"android",a:["2008","2005","2010","2000"],r:0},
+{q:"5G plus rapide que?",c:"IA & Tech",bg:"5g",a:["4G","2G","3G","Tout"],r:3},
+{q:"UY1 créé?",c:"Éducation",bg:"old-building",a:["1993","1962","2000","1980"],r:0},
+{q:"Univ d'Etat?",c:"Éducation",bg:"structure",a:["8","5","10","11"],r:2},
+{q:"Ville Cruelle?",c:"Société",bg:"book-cover",a:["Mongo Beti","Oyono","Eza Boto","Beyala"],r:2},
+{q:"Ndolé plat?",c:"Société",bg:"food",a:["Sawa","Bami","Beti","Nord"],r:0},
+{q:"Mbam danse?",c:"Histoire",bg:"dance",a:["Centre","Ouest","Nord","Littoral"],r:0},
+{q:"CAN au Cameroun?",c:"Sport",bg:"african-cup",a:["2022","2019","2020","2023"],r:0},
+{q:"Ballon d'Or cam?",c:"Sport",bg:"gold-ball",a:["Eto'o 2010","Aboubakar","Song","Milla"],r:3},
+
+// 50 NOUVELLES QUESTIONS VARIÉES (51 à 100)
+
+{q:"Quel est le point le plus pluvieux du Cameroun ?",c:"Géographie",bg:"rain",a:["Debundscha","Douala","Kribi","Limbe"],r:0},
+{q:"Qui a écrit 'Le Vieux Nègre et la Médaille' ?",c:"Littérature",bg:"old-man",a:["Ferdinand Oyono","Mongo Beti","Guillaume Oyônô Mbia","Francis Bebey"],r:0},
+{q:"Quelle ville est célèbre pour ses chutes de la Lobé ?",c:"Tourisme",bg:"waterfall",a:["Kribi","Limbe","Edea","Melong"],r:0},
+{q:"Quel fleuve traverse la ville de Douala ?",c:"Géographie",bg:"bridge",a:["Wouri","Sanaga","Nyong","Logone"],r:0},
+{q:"En quelle année le Cameroun anglophone et francophone ont formé la république unie ?",c:"Histoire",bg:"monument",a:["1972","1960","1961","1984"],r:0},
+{q:"Quel est le plat traditionnel à base de taro et sauce jaune ?",c:"Culture",bg:"soup",a:["Achou","Ndolé","Eru","Koki"],r:0},
+{q:"Qui est l'actuel sélectionneur des Lions Indomptables ?",c:"Sport",bg:"coach",a:["Marc Brys","Rigobert Song","Toni Conceição","Hugo Broos"],r:0},
+{q:"Quelle ethnie est historiquement associée au Royaume Bamoun ?",c:"Culture",bg:"palace",a:["Bamoun","Bamiléké","Tikari","Sawa"],r:0},
+{q:"Quelle grande entreprise gère l'électricité au Cameroun ?",c:"Société",bg:"power",a:["Eneo","Camwater","Camtel","Sodecoton"],r:0},
+{q:"Quel oiseau endémique trouve-t-on sur le Mont Cameroun ?",c:"Animaux",bg:"bird",a:["Francolin du Cameroun","Touraco","Aigle Royal","Pélican"],r:0},
+{q:"Que signifie l'extension internet '.cm' ?",c:"IA & Tech",bg:"web",a:["Cameroun","Cambodge","Central Market","Community Manager"],r:0},
+{q:"Quel protocole sécurise les sites web (cadenas vert) ?",c:"IA & Tech",bg:"security",a:["HTTPS","HTTP","FTP","SMTP"],r:0},
+{q:"Qui est considéré comme le fondateur de Microsoft ?",c:"IA & Tech",bg:"windows",a:["Bill Gates","Steve Jobs","Mark Zuckerberg","Elon Musk"],r:0},
+{q:"Quel composant est le 'cerveau' d'un ordinateur ?",c:"IA & Tech",bg:"cpu",a:["Processeur (CPU)","Disque dur","Mémoire RAM","Carte graphique"],r:0},
+{q:"Quel réseau social est axé sur les relations professionnelles ?",c:"IA & Tech",bg:"linkedin",a:["LinkedIn","TikTok","X","Instagram"],r:0},
+{q:"Dans quelle ville se trouve l'Université de Dschang ?",c:"Éducation",bg:"campus-life",a:["Dschang","Bafoussam","Foumban","Mbouda"],r:0},
+{q:"Quelle école forme les ingénieurs polytechniciens à Yaoundé ?",c:"Éducation",bg:"blueprint",a:["Polytechnique Yaoundé","ENS","ENAM","IAI"],r:0},
+{q:"Quelle est la durée d'études pour obtenir un Master en système LMD ?",c:"Éducation",bg:"diploma",a:["2 ans","3 ans","5 ans","1 an"],r:0},
+{q:"Quel examen officiel clôture les études secondaires francophones ?",c:"Éducation",bg:"exam",a:["Baccalauréat","Probatoire","BEPC","GCE A-Level"],r:0},
+{q:"Où se situe l'Université de Buéa ?",c:"Éducation",bg:"buea",a:["Sud-Ouest","Nord-Ouest","Littoral","Centre"],r:0},
+{q:"Quel roi bamoun a inventé une écriture originale ?",c:"Histoire",bg:"king",a:["Roi Njoya","Roi Mbamba","Roi Nsangou","Roi Ngoundaba"],r:0},
+{q:"Quel explorateur portugais a nommé le fleuve 'Rio dos Camarões' ?",c:"Histoire",bg:"ship",a:["Fernando Pô","Vasco de Gama","Magellan","Leif Erikson"],r:0},
+{q:"Quelle ville abrite le grand port en eau profonde du Cameroun ?",c:"Économie",bg:"port",a:["Kribi","Douala","Limbe","Tiko"],r:0},
+{q:"Quel est le chef-lieu de la région de l'Adamaoua ?",c:"Géographie",bg:"savanna-hill",a:["Ngaoundéré","Garoua","Maroua","Bertoua"],r:0},
+{q:"Quelle réserve du Cameroun est inscrite au patrimoine de l'UNESCO ?",c:"Tourisme",bg:"forest",a:["Réserve du Dja","Parc de Waza","Parc de Korup","Parc de Bouba Ndjida"],r:0},
+{q:"Quel artiste camerounais a chanté le tube mondial 'Soul Makossa' ?",c:"Culture",bg:"music",a:["Manu Dibango","Richard Bona","Petit Pays","Locko"],r:0},
+{q:"Quel est l'ingrédient de base du plat appelé 'Koki' ?",c:"Culture",bg:"beans",a:["Haricots Cornille (Blancs)","Macabo","Manioc","Feuilles de brousse"],r:0},
+{q:"Quelle danse traditionnelle est originaire de la région de l'Est ?",c:"Culture",bg:"tribal",a:["Bikutsi","Makossa","Bendskin","Assiko"],r:0},
+{q:"Quel festival culturel célèbre le peuple Sawa à Douala ?",c:"Culture",bg:"canoe",a:["Le Ngondo","Le Nguon","Le Medumba","Le National Festival"],r:0},
+{q:"Quelle est la monnaie officielle utilisée au Cameroun ?",c:"Économie",bg:"money",a:["Franc CFA (XAF)","Franc CFA (XOF)","Naira","Dollar"],r:0},
+{q:"Dans quel club européen Samuel Eto'o a-t-il remporté un triplé en 2010 ?",c:"Sport",bg:"inter",a:["Inter Milan","FC Barcelone","Chelsea","Real Madrid"],r:0},
+{q:"Quelle athlète camerounaise a été double championne olympique du triple saut ?",c:"Sport",bg:"jump",a:["Françoise Mbango","Leticia Ndzana","Auriole Dongmo","Marlyse Ngo"],r:0},
+{q:"Comment appelle-t-on le derby mythique du football de Yaoundé ?",c:"Sport",bg:"derby",a:["Canon vs Tonnerre","Union vs Dynamo","Cotonsport vs Racing","Lions vs Astres"],r:0},
+{q:"Quel skieur a représenté le Cameroun aux Jeux Olympiques d'hiver ?",c:"Sport",bg:"snow",a:["Isaac Menyoli","Philip Boit","Robel Teklemariam","Kwame Nkrumah"],r:0},
+{q:"Quelle équipe camerounaise détient le plus de titres en championnat national ?",c:"Sport",bg:"champions",a:["Cotonsport de Garoua","Canon de Yaoundé","Union de Douala","Tonnerre Kalara"],r:0},
+{q:"Quel langage informatique sert à structurer les pages web ?",c:"IA & Tech",bg:"html",a:["HTML","CSS","JavaScript","PHP"],r:0},
+{q:"Quelle entreprise a développé le système d'exploitation Windows ?",c:"IA & Tech",bg:"office",a:["Microsoft","Apple","Linux","IBM"],r:0},
+{q:"Que signifie le sigle 'RAM' pour une mémoire ?",c:"IA & Tech",bg:"ram",a:["Random Access Memory","Read Active Memory","Rapid Allocation Mode","Reset Available Module"],r:0},
+{q:"Quel milliardaire a racheté la plateforme Twitter (devenue X) ?",c:"IA & Tech",bg:"x-logo",a:["Elon Musk","Jeff Bezos","Bill Gates","Mark Zuckerberg"],r:0},
+{q:"Quelle technologie permet de connecter des appareils sans fil à courte portée ?",c:"IA & Tech",bg:"bluetooth",a:["Bluetooth","Wi-Fi","NFC","Infrarouge"],r:0},
+{q:"Quel ministère s'occupe de l'enseignement secondaire au Cameroun ?",c:"Éducation",bg:"school-bag",a:["MINESEC","MINESUP","MINEDUB","MINEFOP"],r:0},
+{q:"Combien d'années dure le cycle complet de l'école primaire au Cameroun ?",c:"Éducation",bg:"kids",a:["6 ans","5 ans","7 ans","4 ans"],r:0},
+{q:"Quelle est la plus ancienne université d'État du Cameroun ?",c:"Éducation",bg:"monument-uni",a:["Université de Yaoundé","Université de Douala","Université de Dschang","Université de Garoua"],r:0},
+{q:"Dans quelle ville se trouve la Faculté de Génie Industriel (FGI) ?",c:"Éducation",bg:"industry-tech",a:["Douala","Yaoundé","Bafoussam","Garoua"],r:0},
+{q:"Quel système permet d'étudier à distance via internet ?",c:"Éducation",bg:"e-learning",a:["E-learning","Présentiel","Alternance","Mooc seul"],r:0},
+{q:"Quel est le chef-lieu de la région du Sud-Ouest ?",c:"Géographie",bg:"ocean",a:["Buea","Limbe","Kumba","Mamfe"],r:0},
+{q:"Quel lac volcanique du Cameroun a connu une explosion limnique tragique en 1986 ?",c:"Histoire",bg:"lake",a:["Lac Nyos","Lac Monoun","Lac Tchad","Lac Municipal"],r:0},
+{q:"Quel parc national du Nord est célèbre pour ses colonies de hippopotames ?",c:"Animaux",bg:"hippo",a:["Bouba Ndjida","Waza","Benoué","Campo Ma'an"],r:2},
+{q:"Qui a écrit l'œuvre célèbre 'Trois prétendants... un mari' ?",c:"Littérature",bg:"wedding",a:["Guillaume Oyônô Mbia","Ferdinand Oyono","Francis Bebey","René Philombe"],r:0},
+{q:"Quelle est la date exacte de la fête nationale de l'Unité du Cameroun ?",c:"Histoire",bg:"national-day",a:["20 mai","1 janvier","1 octobre","11 février"],r:0}
+];
+let cur=0,score=0,timer,timeLeft=20;
+const totalQuestions = questions.length;
+function load(){
+let qq=questions[cur];
+// 1. Transition visuelle : Effet de sortie
+const qBox = document.getElementById('q-box');
+qBox.classList.add('fade-out');
+setTimeout(() => {
+// 2. Permutation de l'arrière-plan avec un mot-clé iconique de la question
+document.body.style.backgroundImage = `url('https://unsplash.com/${cur}')`;
+// Option alternative dynamique si connecté à internet :
+if(qq.bg) {
+document.body.style.backgroundImage = `url('https://unsplash.com/?${qq.bg},africa,tech')`;
+}
+// 3. Mise à jour des textes
+document.getElementById('q').innerText=qq.q;
+document.getElementById('cat').innerText=qq.c+" — Question "+(cur+1);
+let ans=document.getElementById('answers');
+ans.innerHTML="";
+qq.a.forEach((t,i)=>{
+let b=document.createElement('button');
+b.className='btn';
+b.innerText=t;
+b.onclick=()=>check(i,b);
+ans.appendChild(b);
+});
+document.getElementById('num').innerText=cur+1;
+document.getElementById('bar').style.width=((cur+1)/totalQuestions*100)+"%";
+document.getElementById('next').style.display='none';
+// Entrée fluide
+qBox.classList.remove('fade-out');
+// 4. Lancement du compte à rebours de 20 secondes
+startTimer();
+}, 250);
+}
+function startTimer(){
+clearInterval(timer);
+timeLeft = 20;
+document.getElementById('timer-bar').style.width = "100%";
+document.getElementById('timer-bar').style.background = "#1ea362";
+timer = setInterval(() => {
+timeLeft--;
+let percentage = (timeLeft / 20) * 100;
+let tBar = document.getElementById('timer-bar');
+tBar.style.width = percentage + "%";
+// Alerte visuelle quand le temps devient court
+if(timeLeft <= 7) {
+tBar.style.background = "#e63946";
+} else if(timeLeft <= 13) {
+tBar.style.background = "#ffbe0b";
+}
+if(timeLeft <= 0){
+clearInterval(timer);
+timeOutAction();
+}
+}, 1000);
+}
+function timeOutAction(){
+// Verrouiller les choix et afficher la bonne réponse
+let qq=questions[cur];
+document.querySelectorAll('.btn').forEach((b, index) => {
+if(index === qq.r) {
+b.style.background='#1ea362'; // affiche la bonne réponse en vert
+} else {
+b.style.background='rgba(230, 57, 70, 0.2)';
+}
+b.onclick = null;
+});
+document.getElementById('next').style.display='block';
+if(cur===totalQuestions-1){document.getElementById('next').innerText='VOIR RESULTAT';}
+}
+function check(i,btn){
+clearInterval(timer); // Arrête le chrono au clic
+let qq=questions[cur];
+if(i===qq.r){
+btn.style.background='#1ea362';
+score++;
+} else {
+btn.style.background='#e63946';
+// Montrer aussi la bonne réponse en vert clair par fair-play
+document.querySelectorAll('.btn')[qq.r].style.background='#1ea362';
+}
+document.getElementById('sc').innerText=score;
+document.querySelectorAll('.btn').forEach(b=>b.onclick=null);
+document.getElementById('next').style.display='block';
+if(cur===totalQuestions-1){document.getElementById('next').innerText='VOIR RESULTAT';}
+}
+function nextQ(){
+cur++;
+if(cur<totalQuestions){
+load();
+} else {
+clearInterval(timer);
+let appreciation = 'Courage, révise !';
+if(score >= 85) appreciation = 'Véritable Légende NMBU !! 👑';
+else if(score >= 65) appreciation = 'Excellent Génie NMBU ! 🔥';
+else if(score >= 45) appreciation = 'Pas mal, tu as la moyenne ! 👍';
+document.querySelector('.question-box').innerHTML=`<h2 style='text-align:center; color:var(--warning); font-size:32px;'>Fin de la partie !</h2> <p style='text-align:center; font-size:26px; font-weight:bold;'>Score : ${score}/${totalQuestions}</p> <p style='text-align:center; font-size:18px; color:#ddd; padding:0 10px;'>${appreciation}</p> <button class='btn' style='background:var(--warning); color:black; font-weight:bold; text-align:center; margin-top:20px;' onclick='location.reload()'>RECOMMENCER LE DEFI</button>`;
+}
+}
+function share(){
+let text=`J'ai fait un score de ${score}/${totalQuestions} au Quiz Ultimate NMBU ! Viens tester tes connaissances ici : https://urichjames4-eng.github.io/Quiz-07-NMBU/`;
+let url=`https://wa.me/?text=${encodeURIComponent(text)}`;
+window.open(url);
+}
+// Lancement de l'application
+load();
+</script>
+</body>
+</html>
